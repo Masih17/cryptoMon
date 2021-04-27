@@ -1,15 +1,19 @@
-import { StatusBar } from 'expo-status-bar';
+import { StatusBar } from 'react-native';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, SafeAreaView } from 'react-native';
+import CoinList from './components/CoinList';
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <SafeAreaView style={styles.container}>
+      <StatusBar barStyle='light-content' backgroundColor='yellow' />
+      <Text style={styles.text}>Welcome to cryptoMon!</Text>
+      <CoinList></CoinList>
+    </SafeAreaView>
   );
 }
+
+///////////////////////////////////////////
 
 const styles = StyleSheet.create({
   container: {
@@ -17,5 +21,13 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
+    borderRadius: 20,
+    borderColor: 'red',
+    borderWidth: 2,
+  },
+
+  text: {
+    color: 'white',
+    fontSize: 20,
   },
 });
