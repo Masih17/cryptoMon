@@ -5,9 +5,8 @@ import CoinList from './components/CoinList';
 
 export default function App() {
   return (
-    <SafeAreaView>
-      <StatusBar barStyle='light-content' backgroundColor='yellow' />
-      <Text style={styles.text}>Welcome to cryptoMon!</Text>
+    <SafeAreaView style={styles.container}>
+      <StatusBar barStyle='light-content' />
       <CoinList />
     </SafeAreaView>
   );
@@ -19,16 +18,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'white',
-    alignItems: 'center',
-    padding: 10,
     justifyContent: 'center',
-    borderRadius: 20,
-    borderColor: 'red',
-    borderWidth: 10,
   },
 
   text: {
-    color: 'white',
+    color: 'red',
     fontSize: 20,
   },
 });

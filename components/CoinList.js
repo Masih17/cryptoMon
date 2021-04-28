@@ -12,7 +12,9 @@ import axios from 'axios';
 function CoinList() {
   const [coins, setCoins] = useState([]);
   const [isLoading, setLoading] = useState(true);
-
+  const [icon, setIcon] = useState('');
+  // const [iconUri, setIconUri] = useState('');
+  // const icon_url = `https://cryptoicons.org/api/icon/${icon}/200`;
   const api_url =
     'https://api.coingecko.com/api/v3/coins/markets?vs_currency=eur&order=market_cap_desc&per_page=1000&page=1&sparkline=false&price_change_percentage=1h%2C24h%2C7d';
 
@@ -43,6 +45,7 @@ function CoinList() {
   // </View>;
 
   useEffect(() => {
+    //coin list from CoinGecko
     axios
       .get(api_url)
       .then((res) => {
@@ -51,25 +54,38 @@ function CoinList() {
       .catch((error) => console.log('Error in axios', error));
   }, []);
 
+  // fetching Cryptocurrency Icon
+  // const fetchIcons = (cryptoName) => {
+  //   axios
+  //     .get(`https://cryptoicons.org/api/icon/${cryptoName}/200`)
+  //     .then((res) => {
+  //       setIcon(res);
+  //     })
+  //     .catch((error) => console.log('Error in icon fetch', error));
+  // };
+
   return (
-    <View style={styles.coinContainer}>
+    <View style={styles.container}>
       <FlatList
         data={coins}
         keyExtractor={(item) => item.id}
         renderItem={({ item, index }) => (
-          <View>
+          <View style={styles.flatListItems}>
             <Image
-              source={{ uri: item.image }}
+              source={{
+                //uri: `https://cryptoicons.org/api/icon/${item.symbol}/200`,
+                uri: item.image,
+              }}
               style={{
-                width: styles.iconSize.width,
-                height: styles.iconSize.height,
-                borderRadius: styles.iconSize.borderRadius,
+                width: styles.image.width,
+                height: styles.image.height,
+                borderRadius: styles.image.borderRadius,
+                marginRight: styles.image.marginLeft,
               }}
             />
             <View>
-              <Text style={styles.text}>{item.name}</Text>
-              <Text style={styles.text}>{item.symbol}</Text>
-              <Text style={styles.text}>{item.id}</Text>
+              <Text style={styles.coinName}>{item.name}</Text>
+              <Text style={styles.text}>{item.symbol.toUpperCase()}</Text>
             </View>
           </View>
         )}
@@ -82,15 +98,28 @@ function CoinList() {
 ///////////////////////////////////////////
 
 const styles = StyleSheet.create({
-  coinContainer: {
-    marginLeft: 20,
+  container: {
     backgroundColor: 'black',
+    borderColor: 'red',
+  },
+  flatListItems: {
+    flexDirection: 'row',
+    padding: 20,
+    marginBottom: 20,
+    backgroundColor: 'red',
+    borderRadius: 16,
   },
   text: { color: 'white' },
-  iconSize: {
-    width: 70,
-    height: 70,
-    borderRadius: 70,
+  coinName: {
+    color: 'white',
+    fontWeight: 'bold',
+  },
+  image: {
+    // Crypto icon sizes
+    width: 40,
+    height: 40,
+    borderRadius: 40,
+    marginLeft: 10,
   },
 });
 
