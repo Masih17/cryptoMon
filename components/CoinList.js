@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import {
   ActivityIndicator,
   StatusBar,
@@ -52,17 +52,22 @@ function CoinList() {
 
   // To handle the searches
   const handleSearch = (text) => {
+    console.log("text is: ", text);
     const formattedQuery = text.toLowerCase();
-    const filteredData = filter(fullData, (symbol) => {
-      return contains(symbol, formattedQuery);
+    const filteredData = filter(fullData, (x) => {
+      //console.log("filteredData is: ", filteredData);
+      return contains(x, formattedQuery);
     });
+    //console.log("filteredData is: ", filteredData);
     setCoins(filteredData);
     setQuery(text);
   };
 
   // to filter the search by these parameter of the data in the API
   const contains = ({ symbol, id, name }, query) => {
+    //console.log("****The object is: ", query);
     if (symbol.includes(query) || id.includes(query) || name.includes(query)) {
+      
       return true;
     }
     return false;
@@ -79,7 +84,7 @@ function CoinList() {
           autoCorrect={false}
           clearButtonMode="always"
           value={query}
-          onChangeText={handleSearch}
+          onChangeText={(queryText) => handleSearch(queryText)}
           placeholder="Search"
           placeholderTextColor="#fefefe"
           style={styles.searchBox}
@@ -91,7 +96,7 @@ function CoinList() {
       ) : (
         <FlatList
           data={coins}
-          initialNumToRender={15} //Not sure if this is working or not
+          //initialNumToRender={15} //Not sure if this is working or not
           keyExtractor={(item) => item.id}
           ///////// Pull to refresh //////////
           refreshControl={
@@ -130,8 +135,8 @@ function CoinList() {
                           : styles.percentageDown,
                       ]}
                     >
-                      {item.price_change_percentage_24h_in_currency.toFixed(2) +
-                        "%"}
+                      {(item.price_change_percentage_24h_in_currency).toFixed(1) +
+                        " %"}
                     </Text>
                     {/* To the end of flex*/}
                   </View>
