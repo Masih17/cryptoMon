@@ -1,20 +1,23 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
+import fetchServices from "./FetchServices";
 
-function SearchBar() {
+function Coin(props) {
+
+
   return (
     <View style={styles.container}>
-      <Text>Left</Text>
-      <Text>TopBar</Text>
-      <Text>Right</Text>
+      <Text>Welcome to Coin Page</Text>
+      <Text>{props.id}</Text>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: "white",
+    flex:1,
     alignSelf: "stretch",
-    height: 52,
     flexDirection: "row", // row
     backgroundColor: "yellow",
     alignItems: "center",
@@ -24,4 +27,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SearchBar;
+export default Coin;
