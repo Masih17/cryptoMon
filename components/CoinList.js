@@ -8,20 +8,26 @@ import {
   TouchableOpacity,
   TextInput,
   RefreshControl,
+  Button,
+  Pressable,
 } from "react-native";
-import styles from "./styles/styles";
-import Coin from "./Coin";
 
-// import { LinearGradient } from 'expo-linear-gradient';
+import { AntDesign } from "@expo/vector-icons";
+
+import styles from "../styles/styles";
+import Coin from "./Coin";
 
 import filter from "lodash.filter";
 import axios from "axios";
 
-function CoinList() {
+function CoinList({ navigate }) {
   const [coins, setCoins] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [query, setQuery] = useState();
   const [fullData, setFullData] = useState([]);
+  const [isSelected, setIsSelected] = useState(false);
+  const [favorite, setFavorite] = useState({ item: {}, isSelected: false });
+
 
   const API_URI =
     "https://api.coingecko.com/api/v3/coins/markets?vs_currency=eur&order=market_cap_desc&per_page=100&page=1&sparkline=false&price_change_percentage=1h%2C24h%2C7d";
@@ -32,8 +38,8 @@ function CoinList() {
       .get(API_URI)
       .then((res) => {
         setCoins(res.data);
-        setIsLoading(false);
         setFullData(res.data);
+        setIsLoading(false);
       })
       .catch((error) => {
         setIsLoading(false);
@@ -48,13 +54,7 @@ function CoinList() {
 
   // To handle the searches
   const handleSearch = (text) => {
-    console.log("text is: ", text);
     const formattedQuery = text.toLowerCase();
-    // <<<<<<< HEAD
-    //     const filteredData = filter(fullData, (x) => {
-    //       //console.log("filteredData is: ", filteredData);
-    //       return contains(x, formattedQuery);
-    // =======
     const filteredData = filter(fullData, (data) => {
       return contains(data, formattedQuery);
     });
@@ -72,12 +72,15 @@ function CoinList() {
     return false;
   };
 
-  const handlePress = (e) => {
-    return <Coin data={e.id} />;
+  const handleFavorite = (e) => {
+    //console.log(e);
+    //setIsSelected(true);
+    //setFavorite(...favorite, e);
+    // console.log(isSelected);
   };
 
   return (
-    <View>
+    <View style={styles.body}>
       {/*//////////////// SearchBar ////////////// */}
       <View>
         <TextInput
@@ -108,7 +111,7 @@ function CoinList() {
           style={styles.flatListBody}
           //////// rendering items ///////////
 
-          renderItem={({ item, index }) => (
+          renderItem={({ item }) => (
             <TouchableOpacity onPress={() => handlePress({ item })}>
               <View style={styles.flatListBox}>
                 <Image
@@ -125,6 +128,18 @@ function CoinList() {
                     <Text style={styles.coinAcr}>
                       {item.symbol.toUpperCase()}
                     </Text>
+                    <View style={styles.favoriteIcon}>
+                      <Pressable>
+                        <AntDesign
+                          name={favorite ? "hearto" : "hearto"}
+                          value={isSelected}
+                          size={16}
+                          color={isSelected ? "#F44336" : "rgb(255, 255, 0)"}
+                          selectable={true}
+                          onPress={() => handleFavorite(item.id)}
+                        />
+                      </Pressable>
+                    </View>
                   </View>
 
                   {/******  Price and Percentage *********/}
@@ -141,19 +156,20 @@ function CoinList() {
                           : styles.down,
                       ]}
                     >
-                      {item.price_change_percentage_24h_in_currency.toFixed(2) +
-                        "%"}
+                      {item.price_change_percentage_24h_in_currency
+                        .toFixed(2)
+                        .replace(".", ",") + "%"}
                     </Text>
                     <Text
-                      // Checking if the percentage is up or down and change color base on that
                       style={[
                         item.price_change_percentage_1h_in_currency > 0
                           ? styles.up
                           : styles.down,
                       ]}
                     >
-                      {item.price_change_percentage_1h_in_currency.toFixed(2) +
-                        "%"}
+                      {item.price_change_percentage_1h_in_currency
+                        .toFixed(2)
+                        .replace(".", ",") + "%"}
                     </Text>
                   </View>
                 </View>
@@ -164,6 +180,6 @@ function CoinList() {
       )}
     </View>
   );
-} //end of CoinsList
+}
 
 export default CoinList;

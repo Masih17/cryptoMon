@@ -6,6 +6,11 @@ const ICON_SIZE = 40;
 
 export default StyleSheet.create({
 
+  body:{
+    flex:1,
+    backgroundColor: '#000',
+  },
+
   searchBox: {
     flexDirection: "row",
     color: "white",
@@ -20,6 +25,7 @@ export default StyleSheet.create({
   },
 
   flatListBody: {
+    //backgroundColor: "#000",
     padding: SPACING,
     paddingTop: StatusBar.currentHeight || 24,
     // borderWidth: 2,
@@ -34,25 +40,44 @@ export default StyleSheet.create({
     marginBottom: SPACING / 4,
     backgroundColor: "rgba(59, 56, 74, 0.8)", // "rgba(43, 36, 79, 0.8)",
     borderRadius: 12,
-    borderColor: "#18fa14",
+    // borderColor: "#18fa14",
+    // borderWidth: 2,
+  },
+
+  favoriteIcon: {
+    flexDirection: "row",
+  },
+
+  checkboxBase: {
+    width: 24,
+    height: 24,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 4,
     borderWidth: 2,
+    borderColor: 'coral',
+    backgroundColor: 'transparent',
+  },
+
+  checkboxChecked: {
+    backgroundColor: 'coral',
   },
 
   flatListContainerItems: {
     flex: 1,
     flexDirection: "row",
     justifyContent: "space-between",
-    borderWidth: 2,
-    borderColor: "#ed34e7",
+    // borderWidth: 2,
+    // borderColor: "#ed34e7",
   },
 
   coinAcr: {
-    color: "#ffffff",
+    color: "#fff",
     // borderColor: "#d8eb34",
     // borderWidth: 2,
   },
   coinName: {
-    color: "#ffffff",
+    color: "#fff",
     fontWeight: "bold",
     // borderColor: "#a19fd4",
     // borderWidth: 2,
@@ -65,13 +90,14 @@ export default StyleSheet.create({
   },
 
   numbers: {
-    color: "#ffffff",
+    color: "#fff",
+    fontWeight: "bold",
   },
 
   priceData: {
     alignItems: "flex-end", // Percentage to the most right
-    borderColor: "#fff",
-    borderWidth: 2,
+    // borderColor: "#fff",
+    // borderWidth: 2,
     //maxWidth: "100%",
   },
 
@@ -79,10 +105,11 @@ export default StyleSheet.create({
     color: "#45e600",
     //alignSelf: "flex-end",
     justifyContent: "space-between",
+    fontWeight: "bold",
   },
   down: {
-    color: "#c82a42",
-    alignSelf: "flex-end",
+    color: "#ff2626",
+    //alignSelf: "flex-end",
     justifyContent: "space-between",
   },
 });
