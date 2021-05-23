@@ -1,11 +1,13 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 
-function Coin(props) {
+function Favorites(props) {
+  console.log("props in Favorite Component is: ", props)
   return (
     <View style={styles.container}>
       <Text style={{ color: "black", backgroundColor: "yellow" }}>
         Welcome to Coin Page!!!!
+        
       </Text>
     </View>
   );
@@ -22,4 +24,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Coin;
+export default Favorites;

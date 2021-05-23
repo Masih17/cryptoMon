@@ -8,29 +8,27 @@ import {
   TouchableOpacity,
   TextInput,
   RefreshControl,
-  Button,
   Pressable,
 } from "react-native";
 
 import { AntDesign } from "@expo/vector-icons";
+import { CheckBox } from 'react-native-elements'
 
 import styles from "../styles/styles";
-import Coin from "./Coin";
+import Favorites from "./Favorites";
 
 import filter from "lodash.filter";
 import axios from "axios";
 
-function CoinList({ navigate }) {
+function CoinList() {
   const [coins, setCoins] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [query, setQuery] = useState();
-  const [fullData, setFullData] = useState([]);
-  const [isSelected, setIsSelected] = useState(false);
-  const [favorite, setFavorite] = useState({ item: {}, isSelected: false });
-
+  const [fullData, setFullData] = useState({});
+  const [favorites, setFavorite] = useState({});
 
   const API_URI =
-    "https://api.coingecko.com/api/v3/coins/markets?vs_currency=eur&order=market_cap_desc&per_page=100&page=1&sparkline=false&price_change_percentage=1h%2C24h%2C7d";
+    "https://api.coingecko.com/api/v3/coins/markets?vs_currency=eur&order=market_cap_desc&per_page=5&page=1&sparkline=false&price_change_percentage=1h%2C24h%2C7d";
 
   const fetchData = () => {
     setIsLoading(true);
@@ -73,11 +71,17 @@ function CoinList({ navigate }) {
   };
 
   const handleFavorite = (e) => {
-    //console.log(e);
-    //setIsSelected(true);
-    //setFavorite(...favorite, e);
-    // console.log(isSelected);
+    const items = [...coins]
+    const currentItemIndex = items.findIndex(v => v.id === e.id)
+    items[currentItemIndex].checked = !items[currentItemIndex].checked
+    setFavorite((state)=> ({...state, e}))
   };
+
+  //console.log(coins);
+
+  const handlePress = (e) => {
+  
+  }
 
   return (
     <View style={styles.body}>
@@ -101,7 +105,6 @@ function CoinList({ navigate }) {
       ) : (
         <FlatList
           data={coins}
-          //initialNumToRender={15} //Not sure if this is working or not
           keyExtractor={(item) => item.id}
           ///////// Pull to refresh //////////
 
@@ -112,7 +115,7 @@ function CoinList({ navigate }) {
           //////// rendering items ///////////
 
           renderItem={({ item }) => (
-            <TouchableOpacity onPress={() => handlePress({ item })}>
+            <TouchableOpacity onPress={() => handlePress(coins)}>
               <View style={styles.flatListBox}>
                 <Image
                   source={{
@@ -128,24 +131,34 @@ function CoinList({ navigate }) {
                     <Text style={styles.coinAcr}>
                       {item.symbol.toUpperCase()}
                     </Text>
-                    <View style={styles.favoriteIcon}>
+                    {/********* CheckBox **************/}
+                    <View>
                       <Pressable>
-                        <AntDesign
-                          name={favorite ? "hearto" : "hearto"}
-                          value={isSelected}
-                          size={16}
-                          color={isSelected ? "#F44336" : "rgb(255, 255, 0)"}
-                          selectable={true}
-                          onPress={() => handleFavorite(item.id)}
+                        <CheckBox
+                          checked={!!item.checked}
+                          onPress={() => handleFavorite(item)}
+                          containerStyle={styles.favoriteIcon}
+                          checkedIcon={
+                            <AntDesign
+                              name="heart"
+                              size={18}
+                              color={"#F44336"}
+                            />
+                          }
+                          uncheckedIcon={
+                            <AntDesign name="hearto" size={18} color={"#fff"} />
+                          }
                         />
                       </Pressable>
                     </View>
                   </View>
-
+                  <View style={styles.data}>
+                    <Text style={styles.price}></Text>
+                  </View>
                   {/******  Price and Percentage *********/}
 
                   <View style={styles.priceData}>
-                    <Text style={styles.numbers}>
+                    <Text style={styles.price}>
                       €{item.current_price.toFixed(2).replace(".", ",")}
                     </Text>
                     <Text
@@ -160,7 +173,7 @@ function CoinList({ navigate }) {
                         .toFixed(2)
                         .replace(".", ",") + "%"}
                     </Text>
-                    <Text
+                    {/* <Text
                       style={[
                         item.price_change_percentage_1h_in_currency > 0
                           ? styles.up
@@ -170,7 +183,7 @@ function CoinList({ navigate }) {
                       {item.price_change_percentage_1h_in_currency
                         .toFixed(2)
                         .replace(".", ",") + "%"}
-                    </Text>
+                    </Text> */}
                   </View>
                 </View>
               </View>

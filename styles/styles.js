@@ -46,21 +46,9 @@ export default StyleSheet.create({
 
   favoriteIcon: {
     flexDirection: "row",
-  },
-
-  checkboxBase: {
-    width: 24,
-    height: 24,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 4,
-    borderWidth: 2,
-    borderColor: 'coral',
-    backgroundColor: 'transparent',
-  },
-
-  checkboxChecked: {
-    backgroundColor: 'coral',
+    alignSelf: 'flex-start',
+    padding: 0,
+    marginLeft: 0,
   },
 
   flatListContainerItems: {
@@ -89,9 +77,10 @@ export default StyleSheet.create({
     marginRight: 10,
   },
 
-  numbers: {
+  price: {
     color: "#fff",
     fontWeight: "bold",
+    margin:2,
   },
 
   priceData: {
@@ -103,6 +92,7 @@ export default StyleSheet.create({
 
   up: {
     color: "#45e600",
+    padding:1,
     //alignSelf: "flex-end",
     justifyContent: "space-between",
     fontWeight: "bold",
@@ -110,6 +100,8 @@ export default StyleSheet.create({
   down: {
     color: "#ff2626",
     //alignSelf: "flex-end",
+    padding:1,
+    fontWeight: "bold",
     justifyContent: "space-between",
   },
 });
