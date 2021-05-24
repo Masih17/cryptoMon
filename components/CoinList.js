@@ -24,7 +24,7 @@ function CoinList() {
   const [isLoading, setIsLoading] = useState(true);
   const [query, setQuery] = useState();
   const [fullData, setFullData] = useState([]);
-  const [favorites, setFavorite] = useState([]);
+  const [favorites, setFavorite] = useState({ currFav: [], checked: [] });
 
   const API_URI =
     "https://api.coingecko.com/api/v3/coins/markets?vs_currency=eur&order=market_cap_desc&per_page=10&page=1&sparkline=false&price_change_percentage=1h%2C24h%2C7d";
@@ -69,38 +69,48 @@ function CoinList() {
     return false;
   };
 
-  const handleFavorite = (e) => {
-    const items = [...coins];
-    const currentItemIndex = items.findIndex((v) => v.id === e.id);
-    console.log("currentItemIndex is:", currentItemIndex);
-    let isFavorite = (items[currentItemIndex].isFavorite =
-      !items[currentItemIndex].isFavorite);
-    if (isFavorite && !(e.id in favorites)) {
-      console.log(e.id, " not is favorites");
-      setFavorite((newFavorite) => ({ ...newFavorite, items }));
-      //console.log("favorites are now:", favorites);
-    } else console.log(e.id, " is in favorites");
-
-    setFavorite((state) => ({ ...state, items }));
-    //console.log("favorites are now:", favorites);
+  const handleFavorite = (i, e) => {
+    //const items = [...coins];
+    const { currFav, checked } = favorites;
+    checked[i] = !checked[i];
+    const found = currFav.some((data) => data === e.id);
+    if (found) {
+      currFav.splice(
+        currFav.findIndex((data) => data === e.id),
+        1
+      );
+    } else {
+      currFav.push(e.id);
+    }
+    setFavorite({ currFav, checked });
+    console.log(favorites);
   };
+
+  // const currentItemIndex = coins.findIndex((v) => v.id === e.id);
+  // console.log("currentItemIndex is:", currentItemIndex);
+  // let isFavorite = (coins[currentItemIndex].isFavorite =
+  //   !coins[currentItemIndex].isFavorite);
+  // if (isFavorite && !(e.id in temArr)) {
+  //   console.log(
+  //     "isFavorites is: ",
+  //     isFavorite,
+  //     "and",
+  //     e.id,
+  //     "in favorites is",
+  //     e.id in favorites
+  //   );
+  //   temArr.push(e);
+  //   //setFavorite((newFavorite) => ({ ...newFavorite, e }));
+  //   console.log("favorites are now:", temArr);
+  // } else {
+  //   //setFavorite(favorites.filter((itm) => itm.id !== item.id));
+  //   console.log(e.id, " is in favorites so it is deleted");
+  // }
+  //console.log("favorites are now:", favorites);
 
   const handlePress = (data) => {
     let checkFiledData = {};
     let names = [];
-
-    // coins.forEach((currentItem, index) => {
-    //   checkFiledData[index] = currentItem.id;
-    // });
-    // console.log("checkFiledData is: ", checkFiledData);
-    // data.map((item) => {
-    //   return Object.values(item).map((value) => {
-    //     checkFiledData = { ...checkFiledData, [value]: true };
-    //     names = [...names, value];
-    //     console.log("names in handlepress are: ", names);
-    //     return { checkFiledData, names };
-    //   });
-    // });
   };
 
   return (
@@ -135,7 +145,7 @@ function CoinList() {
           style={styles.flatListBody}
           //////// rendering items ///////////
 
-          renderItem={({ item }) => (
+          renderItem={({ item, index }) => (
             <TouchableOpacity onPress={() => handlePress(coins)}>
               <View style={styles.flatListBox}>
                 <Image
@@ -156,8 +166,8 @@ function CoinList() {
                     <View>
                       <Pressable>
                         <CheckBox
-                          checked={!!item.checked}
-                          onPress={() => handleFavorite(item)}
+                          checked={favorites.checked[index]}
+                          onPress={() => handleFavorite(index, item)}
                           containerStyle={styles.favoriteIcon}
                           checkedIcon={
                             <AntDesign
