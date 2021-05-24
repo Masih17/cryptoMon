@@ -70,14 +70,19 @@ function CoinList() {
   };
 
   const handleFavorite = (e) => {
-    // const items = [...coins]
-    const currentItemIndex = coins.findIndex((v) => v.id === e.id);
-    //console.log("current item index in handlefavorites is: ", currentItemIndex);
-    coins[currentItemIndex].checked = !coins[currentItemIndex].checked;
-    if ("checked" in e) {
-      console.log("coin is checked");
-    } else console.log("checked not found");
-    setFavorite((state) => ({ ...favorites, state }));
+    const items = [...coins];
+    const currentItemIndex = items.findIndex((v) => v.id === e.id);
+    console.log("currentItemIndex is:", currentItemIndex);
+    let isFavorite = (items[currentItemIndex].isFavorite =
+      !items[currentItemIndex].isFavorite);
+    if (isFavorite && !(e.id in favorites)) {
+      console.log(e.id, " not is favorites");
+      setFavorite((newFavorite) => ({ ...newFavorite, items }));
+      //console.log("favorites are now:", favorites);
+    } else console.log(e.id, " is in favorites");
+
+    setFavorite((state) => ({ ...state, items }));
+    //console.log("favorites are now:", favorites);
   };
 
   const handlePress = (data) => {
@@ -88,14 +93,14 @@ function CoinList() {
     //   checkFiledData[index] = currentItem.id;
     // });
     // console.log("checkFiledData is: ", checkFiledData);
-    data.map((item) => {
-      return Object.values(item).map((value) => {
-        checkFiledData = { ...checkFiledData, [value]: true };
-        names = [...names, value];
-        console.log("names in handlepress are: ", names);
-        return { checkFiledData, names };
-      });
-    });
+    // data.map((item) => {
+    //   return Object.values(item).map((value) => {
+    //     checkFiledData = { ...checkFiledData, [value]: true };
+    //     names = [...names, value];
+    //     console.log("names in handlepress are: ", names);
+    //     return { checkFiledData, names };
+    //   });
+    // });
   };
 
   return (
