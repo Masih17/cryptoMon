@@ -12,11 +12,10 @@ import {
 } from "react-native";
 
 import { AntDesign } from "@expo/vector-icons";
-import { CheckBox } from 'react-native-elements'
+import { CheckBox } from "react-native-elements";
 
 import styles from "../styles/styles";
 import Favorites from "./Favorites";
-
 import filter from "lodash.filter";
 import axios from "axios";
 
@@ -24,11 +23,11 @@ function CoinList() {
   const [coins, setCoins] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [query, setQuery] = useState();
-  const [fullData, setFullData] = useState({});
-  const [favorites, setFavorite] = useState({});
+  const [fullData, setFullData] = useState([]);
+  const [favorites, setFavorite] = useState([]);
 
   const API_URI =
-    "https://api.coingecko.com/api/v3/coins/markets?vs_currency=eur&order=market_cap_desc&per_page=5&page=1&sparkline=false&price_change_percentage=1h%2C24h%2C7d";
+    "https://api.coingecko.com/api/v3/coins/markets?vs_currency=eur&order=market_cap_desc&per_page=10&page=1&sparkline=false&price_change_percentage=1h%2C24h%2C7d";
 
   const fetchData = () => {
     setIsLoading(true);
@@ -71,17 +70,33 @@ function CoinList() {
   };
 
   const handleFavorite = (e) => {
-    const items = [...coins]
-    const currentItemIndex = items.findIndex(v => v.id === e.id)
-    items[currentItemIndex].checked = !items[currentItemIndex].checked
-    setFavorite((state)=> ({...state, e}))
+    // const items = [...coins]
+    const currentItemIndex = coins.findIndex((v) => v.id === e.id);
+    //console.log("current item index in handlefavorites is: ", currentItemIndex);
+    coins[currentItemIndex].checked = !coins[currentItemIndex].checked;
+    if ("checked" in e) {
+      console.log("coin is checked");
+    } else console.log("checked not found");
+    setFavorite((state) => ({ ...favorites, state }));
   };
 
-  //console.log(coins);
+  const handlePress = (data) => {
+    let checkFiledData = {};
+    let names = [];
 
-  const handlePress = (e) => {
-  
-  }
+    // coins.forEach((currentItem, index) => {
+    //   checkFiledData[index] = currentItem.id;
+    // });
+    // console.log("checkFiledData is: ", checkFiledData);
+    data.map((item) => {
+      return Object.values(item).map((value) => {
+        checkFiledData = { ...checkFiledData, [value]: true };
+        names = [...names, value];
+        console.log("names in handlepress are: ", names);
+        return { checkFiledData, names };
+      });
+    });
+  };
 
   return (
     <View style={styles.body}>
@@ -106,6 +121,7 @@ function CoinList() {
         <FlatList
           data={coins}
           keyExtractor={(item) => item.id}
+          contentContainerStyle={{ paddingBottom: 80 }} //padding to make the last item fir in screen
           ///////// Pull to refresh //////////
 
           refreshControl={
@@ -173,7 +189,7 @@ function CoinList() {
                         .toFixed(2)
                         .replace(".", ",") + "%"}
                     </Text>
-                    {/* <Text
+                    <Text
                       style={[
                         item.price_change_percentage_1h_in_currency > 0
                           ? styles.up
@@ -183,7 +199,7 @@ function CoinList() {
                       {item.price_change_percentage_1h_in_currency
                         .toFixed(2)
                         .replace(".", ",") + "%"}
-                    </Text> */}
+                    </Text>
                   </View>
                 </View>
               </View>
@@ -191,6 +207,7 @@ function CoinList() {
           )}
         />
       )}
+      <Favorites favorites={favorites} />
     </View>
   );
 }

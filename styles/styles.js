@@ -1,14 +1,13 @@
-import { StyleSheet, StatusBar,Dimensions } from "react-native";
+import { StyleSheet, StatusBar, Dimensions } from "react-native";
 
 const { width, height } = Dimensions.get("screen");
 const SPACING = 20;
 const ICON_SIZE = 40;
 
 export default StyleSheet.create({
-
-  body:{
-    flex:1,
-    backgroundColor: '#000',
+  body: {
+    flex: 1,
+    backgroundColor: "#000",
   },
 
   searchBox: {
@@ -46,7 +45,7 @@ export default StyleSheet.create({
 
   favoriteIcon: {
     flexDirection: "row",
-    alignSelf: 'flex-start',
+    alignSelf: "flex-start",
     padding: 0,
     marginLeft: 0,
   },
@@ -80,7 +79,7 @@ export default StyleSheet.create({
   price: {
     color: "#fff",
     fontWeight: "bold",
-    margin:2,
+    margin: 2,
   },
 
   priceData: {
@@ -92,7 +91,7 @@ export default StyleSheet.create({
 
   up: {
     color: "#45e600",
-    padding:1,
+    padding: 1,
     //alignSelf: "flex-end",
     justifyContent: "space-between",
     fontWeight: "bold",
@@ -100,7 +99,7 @@ export default StyleSheet.create({
   down: {
     color: "#ff2626",
     //alignSelf: "flex-end",
-    padding:1,
+    padding: 1,
     fontWeight: "bold",
     justifyContent: "space-between",
   },
