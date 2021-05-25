@@ -55,14 +55,12 @@ function CoinList() {
     const filteredData = filter(fullData, (data) => {
       return contains(data, formattedQuery);
     });
-    //console.log("filteredData is: ", filteredData);
     setCoins(filteredData);
     setQuery(text);
   };
 
   // to filter the search by these parameter of the data in the API
   const contains = ({ symbol, id, name }, query) => {
-    //console.log("****The object is: ", query);
     if (symbol.includes(query) || id.includes(query) || name.includes(query)) {
       return true;
     }
@@ -73,17 +71,17 @@ function CoinList() {
     //const items = [...coins];
     const { currFav, checked } = favorites;
     checked[i] = !checked[i];
-    const found = currFav.some((data) => data === e.id);
+    const found = currFav.some((data) => data === e);
     if (found) {
       currFav.splice(
-        currFav.findIndex((data) => data === e.id),
+        currFav.findIndex((data) => data === e),
         1
       );
     } else {
-      currFav.push(e.id);
+      currFav.push(e);
     }
     setFavorite({ currFav, checked });
-    console.log(favorites);
+    //console.log(favorites);
   };
 
   // const currentItemIndex = coins.findIndex((v) => v.id === e.id);
@@ -222,7 +220,10 @@ function CoinList() {
           )}
         />
       )}
-      <Favorites favorites={favorites} />
+      <Favorites
+        favorites={favorites.currFav}
+        handleFavorite={handleFavorite}
+      />
     </View>
   );
 }

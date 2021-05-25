@@ -1,17 +1,15 @@
 import React, { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 
-function Favorites() {
+function Favorites({ favorites }) {
   //const [favorite, setFavorite] = useState([]);
 
-  // console.log("favorites in Favorite Component is: ", favorites);
+  console.log("favorites in Favorite Component is: ", favorites);
   // console.log("Navigation in Favorite Component is: ", navigation);
 
   return (
-    <View style={styles.container}>
-      <Text style={{ color: "black" }}>
-        {/* {JSON.stringify(favorites)}  Hello */} HELLO
-      </Text>
+    <View>
+      <Text style={{ color: "black" }}>HELLO</Text>
     </View>
   );
 }
