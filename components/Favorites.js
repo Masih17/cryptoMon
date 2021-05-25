@@ -3,18 +3,16 @@ import { StyleSheet, Text, View, FlatList, Image } from "react-native";
 import styles from "../styles/favoritesStyles";
 
 function Favorites({ favorites }) {
-  //const [favorite, setFavorite] = useState([]);
+  const [favorite, setFavorite] = useState(favorites);
 
-  console.log("favorites in Favorite Component is: ", favorites);
+  console.log("favorites in Favorite Component is: ", favorite);
   // console.log("Navigation in Favorite Component is: ", navigation);
-
-  //console.log(favorites);
   return (
     <View style={styles.body}>
-      {/* <View>
+      <View>
         <FlatList
-          data={data}
-          keyExtractor={(item) => "favorites_" + item.id}
+          data={favorites}
+          keyExtractor={(item) => item.id}
           style={styles.flatListBody}
           renderItem={({ item, index }) => (
             <Image
@@ -25,7 +23,7 @@ function Favorites({ favorites }) {
             />
           )}
         />
-      </View> */}
+      </View>
     </View>
   );
 }
