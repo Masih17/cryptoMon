@@ -32,6 +32,7 @@ export default StyleSheet.create({
   },
 
   flatListBox: {
+    flex: 1,
     flexDirection: "row",
     padding: SPACING,
     paddingLeft: SPACING / 2,

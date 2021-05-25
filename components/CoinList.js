@@ -57,14 +57,12 @@ function CoinList() {
     const filteredData = filter(fullData, (data) => {
       return contains(data, formattedQuery);
     });
-    //console.log("filteredData is: ", filteredData);
     setCoins(filteredData);
     setQuery(text);
   };
 
   // to filter the search by these parameter of the data in the API
   const contains = ({ symbol, id, name }, query) => {
-    //console.log("****The object is: ", query);
     if (symbol.includes(query) || id.includes(query) || name.includes(query)) {
       return true;
     }
@@ -72,18 +70,20 @@ function CoinList() {
   };
 
   const handleFavorite = (i, e) => {
-    const { currFav, checked } = favorites; // destructuring the favorite state
-    checked[i] = !checked[i]; // reverse the status to opposite
-    const found = currFav.some((data) => data === e.id); //method tests whether at least one element in the array passes the test implemented by the provided function
+    //const items = [...coins];
+    const { currFav, checked } = favorites;
+    checked[i] = !checked[i];
+    const found = currFav.some((data) => data === e);
     if (found) {
       currFav.splice(
-        currFav.findIndex((data) => data === e.id),
+        currFav.findIndex((data) => data === e),
         1
       );
     } else {
       currFav.push(e);
     }
     setFavorite({ currFav, checked });
+    //console.log(favorites);
   };
 
   const handlePress = (data) => {
@@ -200,7 +200,10 @@ function CoinList() {
           )}
         />
       )}
-      <Favorites favorites={favoritesList} handleFavorite={handleFavorite} />
+      <Favorites
+        favorites={favorites.currFav}
+        handleFavorite={handleFavorite}
+      />
     </View>
   );
 }

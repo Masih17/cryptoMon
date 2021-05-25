@@ -3,9 +3,10 @@ import { StyleSheet, Text, View, FlatList, Image } from "react-native";
 import styles from "../styles/favoritesStyles";
 
 function Favorites({ favorites }) {
-  //console.log("navigation in Favorite component is: ", favorites);
+  //const [favorite, setFavorite] = useState([]);
 
-  //const [data, setData] = useState(favorites);
+  console.log("favorites in Favorite Component is: ", favorites);
+  // console.log("Navigation in Favorite Component is: ", navigation);
 
   //console.log(favorites);
   return (
@@ -28,5 +29,4 @@ function Favorites({ favorites }) {
     </View>
   );
 }
-
 export default Favorites;
