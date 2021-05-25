@@ -4,7 +4,6 @@ import CoinList from "./CoinList";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Text, View } from "react-native";
 import { Feather, MaterialIcons } from "@expo/vector-icons";
-import styles from "../styles/styles";
 import { NavigationContainer } from "@react-navigation/native";
 
 const Tab = createBottomTabNavigator();
@@ -28,7 +27,7 @@ const Tabs = () => {
           component={CoinList}
           options={{
             tabBarIcon: ({ focused }) => (
-              <View style={styles.tabBarIcon}>
+              <View>
                 <Feather
                   style={{ color: focused ? "#20fc03" : "#ababab" }}
                   name="list"

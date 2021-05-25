@@ -1,30 +1,32 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, FlatList, Image } from "react-native";
+import styles from "../styles/favoritesStyles";
 
-function Favorites() {
-  //const [favorite, setFavorite] = useState([]);
+function Favorites({ favorites }) {
+  //console.log("navigation in Favorite component is: ", favorites);
 
-  // console.log("favorites in Favorite Component is: ", favorites);
-  // console.log("Navigation in Favorite Component is: ", navigation);
+  //const [data, setData] = useState(favorites);
 
+  //console.log(favorites);
   return (
-    <View style={styles.container}>
-      <Text style={{ color: "black" }}>
-        {/* {JSON.stringify(favorites)}  Hello */} HELLO
-      </Text>
+    <View style={styles.body}>
+      {/* <View>
+        <FlatList
+          data={data}
+          keyExtractor={(item) => "favorites_" + item.id}
+          style={styles.flatListBody}
+          renderItem={({ item, index }) => (
+            <Image
+              source={{
+                uri: item.image,
+              }}
+              style={styles.icon}
+            />
+          )}
+        />
+      </View> */}
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    color: "#ed34e7",
-    flex: 1,
-    flexDirection: "row",
-    backgroundColor: "yellow",
-    paddingLeft: 10,
-    paddingRight: 10,
-  },
-});
 
 export default Favorites;

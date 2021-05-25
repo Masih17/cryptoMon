@@ -10,7 +10,7 @@ export default function App() {
   return (
     <SafeAreaView style={styles.bottomSafeArea}>
       <StatusBar barStyle="light-content" />
-        <Tabs />
+      <Tabs />
     </SafeAreaView>
   );
 }

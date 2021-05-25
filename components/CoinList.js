@@ -14,7 +14,7 @@ import {
 import { AntDesign } from "@expo/vector-icons";
 import { CheckBox } from "react-native-elements";
 
-import styles from "../styles/styles";
+import styles from "../styles/coinListStyles";
 import Favorites from "./Favorites";
 import filter from "lodash.filter";
 import axios from "axios";
@@ -25,6 +25,8 @@ function CoinList() {
   const [query, setQuery] = useState();
   const [fullData, setFullData] = useState([]);
   const [favorites, setFavorite] = useState({ currFav: [], checked: [] });
+  const [favoritesList, setFavoriteList] = useState(favorites.currFav);
+  console.log("favorites are now: ", favorites);
 
   const API_URI =
     "https://api.coingecko.com/api/v3/coins/markets?vs_currency=eur&order=market_cap_desc&per_page=10&page=1&sparkline=false&price_change_percentage=1h%2C24h%2C7d";
@@ -70,43 +72,19 @@ function CoinList() {
   };
 
   const handleFavorite = (i, e) => {
-    //const items = [...coins];
-    const { currFav, checked } = favorites;
-    checked[i] = !checked[i];
-    const found = currFav.some((data) => data === e.id);
+    const { currFav, checked } = favorites; // destructuring the favorite state
+    checked[i] = !checked[i]; // reverse the status to opposite
+    const found = currFav.some((data) => data === e.id); //method tests whether at least one element in the array passes the test implemented by the provided function
     if (found) {
       currFav.splice(
         currFav.findIndex((data) => data === e.id),
         1
       );
     } else {
-      currFav.push(e.id);
+      currFav.push(e);
     }
     setFavorite({ currFav, checked });
-    console.log(favorites);
   };
-
-  // const currentItemIndex = coins.findIndex((v) => v.id === e.id);
-  // console.log("currentItemIndex is:", currentItemIndex);
-  // let isFavorite = (coins[currentItemIndex].isFavorite =
-  //   !coins[currentItemIndex].isFavorite);
-  // if (isFavorite && !(e.id in temArr)) {
-  //   console.log(
-  //     "isFavorites is: ",
-  //     isFavorite,
-  //     "and",
-  //     e.id,
-  //     "in favorites is",
-  //     e.id in favorites
-  //   );
-  //   temArr.push(e);
-  //   //setFavorite((newFavorite) => ({ ...newFavorite, e }));
-  //   console.log("favorites are now:", temArr);
-  // } else {
-  //   //setFavorite(favorites.filter((itm) => itm.id !== item.id));
-  //   console.log(e.id, " is in favorites so it is deleted");
-  // }
-  //console.log("favorites are now:", favorites);
 
   const handlePress = (data) => {
     let checkFiledData = {};
@@ -135,7 +113,7 @@ function CoinList() {
       ) : (
         <FlatList
           data={coins}
-          keyExtractor={(item) => item.id}
+          keyExtractor={(item) => "list_" + item.id}
           contentContainerStyle={{ paddingBottom: 80 }} //padding to make the last item fir in screen
           ///////// Pull to refresh //////////
 
@@ -204,7 +182,7 @@ function CoinList() {
                         .toFixed(2)
                         .replace(".", ",") + "%"}
                     </Text>
-                    <Text
+                    {/* <Text
                       style={[
                         item.price_change_percentage_1h_in_currency > 0
                           ? styles.up
@@ -214,7 +192,7 @@ function CoinList() {
                       {item.price_change_percentage_1h_in_currency
                         .toFixed(2)
                         .replace(".", ",") + "%"}
-                    </Text>
+                    </Text> */}
                   </View>
                 </View>
               </View>
@@ -222,7 +200,7 @@ function CoinList() {
           )}
         />
       )}
-      <Favorites favorites={favorites} />
+      <Favorites favorites={favoritesList} handleFavorite={handleFavorite} />
     </View>
   );
 }
