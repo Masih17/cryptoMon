@@ -10,9 +10,8 @@ function Favorites({ data }) {
   const isFocused = useIsFocused();
 
   useEffect(() => {
-    setFavorite(data);
     console.log("data in Favorite Component is: ", data);
-  }, [isFocused]);
+  }, []);
 
   console.log("favorites in Favorite Component is: ", favorites);
   // console.log("Navigation in Favorite Component is: ", navigation);

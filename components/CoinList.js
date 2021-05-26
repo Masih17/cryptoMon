@@ -13,11 +13,14 @@ import {
 
 import { AntDesign } from "@expo/vector-icons";
 import { CheckBox } from "react-native-elements";
-
 import styles from "../styles/coinListStyles";
 import Favorites from "./Favorites";
 import filter from "lodash.filter";
 import axios from "axios";
+import firebase from "firebase/app";
+import firebaseConfig from "./firebaseConfig";
+
+firebase.initializeApp(firebaseConfig);
 
 function CoinList() {
   const [coins, setCoins] = useState([]);
