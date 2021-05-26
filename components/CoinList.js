@@ -25,7 +25,6 @@ function CoinList() {
   const [query, setQuery] = useState();
   const [fullData, setFullData] = useState([]);
   const [favorites, setFavorite] = useState({ currFav: [], checked: [] });
-  const [favoritesList, setFavoriteList] = useState(favorites.currFav);
 
   const API_URI =
     "https://api.coingecko.com/api/v3/coins/markets?vs_currency=eur&order=market_cap_desc&per_page=10&page=1&sparkline=false&price_change_percentage=1h%2C24h%2C7d";
@@ -197,10 +196,7 @@ function CoinList() {
           )}
         />
       )}
-      <Favorites
-        favorites={favorites.currFav}
-        handleFavorite={handleFavorite}
-      />
+      <Favorites data={favorites.currFav} handleFavorite={handleFavorite} />
     </View>
   );
 }
