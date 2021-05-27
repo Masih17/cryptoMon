@@ -13,7 +13,7 @@ function Favorites({ data }) {
     console.log("data in Favorite Component is: ", data);
   }, []);
 
-  console.log("favorites in Favorite Component is: ", favorites);
+  //console.log("favorites in Favorite Component is: ", favorites);
   // console.log("Navigation in Favorite Component is: ", navigation);
 
   return (

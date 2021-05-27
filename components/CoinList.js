@@ -17,17 +17,15 @@ import styles from "../styles/coinListStyles";
 import Favorites from "./Favorites";
 import filter from "lodash.filter";
 import axios from "axios";
-import firebase from "firebase/app";
+import firebase from "firebase";
 import firebaseConfig from "./firebaseConfig";
-
-firebase.initializeApp(firebaseConfig);
 
 function CoinList() {
   const [coins, setCoins] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [query, setQuery] = useState();
   const [fullData, setFullData] = useState([]);
-  const [favorites, setFavorite] = useState({ currFav: [], checked: [] });
+  const [favorites, setFavorites] = useState({ currFav: [], checked: [] });
 
   const API_URI =
     "https://api.coingecko.com/api/v3/coins/markets?vs_currency=eur&order=market_cap_desc&per_page=10&page=1&sparkline=false&price_change_percentage=1h%2C24h%2C7d";
@@ -47,12 +45,20 @@ function CoinList() {
       });
   };
 
-  //coin list from CoinGecko
   useEffect(() => {
     fetchData();
+    initDB();
+    updateDB();
   }, []);
 
-  // To handle the searches
+  const initDB = () => {
+    if (firebase.apps.length === 0) {
+      firebase.initializeApp(firebaseConfig);
+    } else {
+      firebase.database().ref("favorites/");
+    }
+  };
+
   const handleSearch = (text) => {
     const formattedQuery = text.toLowerCase();
     const filteredData = filter(fullData, (data) => {
@@ -62,13 +68,14 @@ function CoinList() {
     setQuery(text);
   };
 
-  // to filter the search by these parameter of the data in the API
   const contains = ({ symbol, id, name }, query) => {
     if (symbol.includes(query) || id.includes(query) || name.includes(query)) {
       return true;
     }
     return false;
   };
+
+  ////////////////// Handle Favorites ///////////////////
 
   const handleFavorite = (i, e) => {
     const { currFav, checked } = favorites;
@@ -79,11 +86,71 @@ function CoinList() {
         currFav.findIndex((data) => data === e),
         1
       );
+      deleteItem(e);
     } else {
+      saveItem(e);
       currFav.push(e);
     }
-    setFavorite({ currFav, checked });
+    setFavorites({ currFav, checked });
   };
+
+  const saveItem = (coin) => {
+    firebase
+      .database()
+      .ref("favorites/" + coin.id)
+      .push({ data: coin });
+  };
+
+  const deleteItem = (coin) => {
+    firebase
+      .database()
+      .ref("favorites/" + coin.id)
+      .remove();
+  };
+
+  // const updateDB = (data) => {
+  //   if (data !== undefined) {
+  //     // When the favorite is selected
+  //     firebase
+  //       .database()
+  //       .ref("favorites/")
+  //       .orderByKey()
+  //       .on("value", (snapshot) => {
+  //         snapshot.forEach(function (childSnapshot) {
+  //           // key will be "ada" the first time and "alan" the second time
+  //           var key = childSnapshot.key;
+  //           console.log("firebase key is: ", key);
+  //           // childData will be the actual contents of the child
+  //           var childData = childSnapshot.val();
+  //           console.log("firebase childData val() is: ", childData);
+  //         });
+  //       });
+
+  const updateDB = (e) => {
+    if (e !== undefined) {
+      // When the favorite is selected
+      firebase
+        .database()
+        .ref("favorites/" + e.id)
+        .on("value", (snapshot) => {
+          const data = snapshot.val();
+          //console.log("firebase val is: ", data);
+          const keys = Object.keys(data);
+          console.log("firebase updateDB data is: ", keys);
+          //setFavoritesList(coin);
+        });
+    } else return;
+  };
+
+  // root of the tree
+  // console.log(
+  //   "firebase.database().ref()",
+  //   firebase.database().ref("favorites")
+  // );
+
+  // second first child
+
+  ////////////////////////////////////////////////
 
   const handlePress = (data) => {
     let checkFiledData = {};
@@ -123,7 +190,7 @@ function CoinList() {
           //////// rendering items ///////////
 
           renderItem={({ item, index }) => (
-            <TouchableOpacity onPress={() => handlePress(coins)}>
+            <TouchableOpacity onPress={() => updateDB(item)}>
               <View style={styles.flatListBox}>
                 <Image
                   source={{
