@@ -48,7 +48,6 @@ function CoinList() {
   useEffect(() => {
     fetchData();
     initDB();
-    updateDB();
   }, []);
 
   const initDB = () => {
@@ -108,48 +107,6 @@ function CoinList() {
       .remove();
   };
 
-  // const updateDB = (data) => {
-  //   if (data !== undefined) {
-  //     // When the favorite is selected
-  //     firebase
-  //       .database()
-  //       .ref("favorites/")
-  //       .orderByKey()
-  //       .on("value", (snapshot) => {
-  //         snapshot.forEach(function (childSnapshot) {
-  //           // key will be "ada" the first time and "alan" the second time
-  //           var key = childSnapshot.key;
-  //           console.log("firebase key is: ", key);
-  //           // childData will be the actual contents of the child
-  //           var childData = childSnapshot.val();
-  //           console.log("firebase childData val() is: ", childData);
-  //         });
-  //       });
-
-  const updateDB = (e) => {
-    if (e !== undefined) {
-      // When the favorite is selected
-      firebase
-        .database()
-        .ref("favorites/" + e.id)
-        .on("value", (snapshot) => {
-          const data = snapshot.val();
-          //console.log("firebase val is: ", data);
-          const keys = Object.keys(data);
-          console.log("firebase updateDB data is: ", keys);
-          //setFavoritesList(coin);
-        });
-    } else return;
-  };
-
-  // root of the tree
-  // console.log(
-  //   "firebase.database().ref()",
-  //   firebase.database().ref("favorites")
-  // );
-
-  // second first child
-
   ////////////////////////////////////////////////
 
   const handlePress = (data) => {
@@ -190,7 +147,7 @@ function CoinList() {
           //////// rendering items ///////////
 
           renderItem={({ item, index }) => (
-            <TouchableOpacity onPress={() => updateDB(item)}>
+            <TouchableOpacity>
               <View style={styles.flatListBox}>
                 <Image
                   source={{
@@ -266,7 +223,6 @@ function CoinList() {
           )}
         />
       )}
-      <Favorites data={favorites.currFav} handleFavorite={handleFavorite} />
     </View>
   );
 }

@@ -1,27 +1,52 @@
 import React, { useState, useEffect } from "react";
 import { Text, View, FlatList, Image } from "react-native";
 import styles from "../styles/favoritesStyles";
-import { useIsFocused } from "@react-navigation/native";
+import firebase from "firebase/app";
+import firebaseConfig from "./firebaseConfig";
 
-function Favorites({ data }) {
-  //console.log(props);
+function Favorites({ navigation }) {
+  const [favoritesList, setFavoritesList] = useState([]);
+  //console.log("favoriteList length is:", favoritesList);
 
-  const [favorites, setFavorite] = useState(data);
-  const isFocused = useIsFocused();
+  const initDB = () => {
+    if (firebase.apps.length === 0) {
+      firebase.initializeApp(firebaseConfig);
+    } else {
+      firebase.database().ref("favorites/");
+    }
+  };
 
   useEffect(() => {
-    console.log("data in Favorite Component is: ", data);
-  }, []);
+    const loadData = navigation.addListener("focus", () => {
+      updateDB();
+    });
+    return loadData;
+  }, [navigation]);
 
-  //console.log("favorites in Favorite Component is: ", favorites);
-  // console.log("Navigation in Favorite Component is: ", navigation);
+  useEffect(() => {
+    initDB();
+  });
+
+  const updateDB = () => {
+    firebase
+      .database()
+      .ref("favorites/")
+      .on("value", (snapshot) => {
+        const data = snapshot.val();
+        if (data == null) {
+          alert("nothing to show");
+        } else {
+          setFavoritesList(data);
+        }
+      });
+  };
 
   return (
     <View style={styles.body}>
       <View>
         {/* <FlatList
-          data={favorites}
-          keyExtractor={(item) => "Favorites_" + item.id}
+          data={favoritesList}
+          keyExtractor={(item) => +item.id}
           contentContainerStyle={{ paddingBottom: 80 }}
           style={styles.flatListBody}
           renderItem={({ item, index }) => (
@@ -39,7 +64,7 @@ function Favorites({ data }) {
           )}
         /> */}
         <View>
-          <Text>{JSON.stringify(favorites)}</Text>
+          <Text>{JSON.stringify(favoritesList)} Hello</Text>
         </View>
       </View>
     </View>
