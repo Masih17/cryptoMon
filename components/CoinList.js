@@ -20,7 +20,7 @@ import axios from "axios";
 import firebase from "firebase";
 import firebaseConfig from "./firebaseConfig";
 
-function CoinList() {
+function CoinList({ navigation }) {
   const [coins, setCoins] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [query, setQuery] = useState();
@@ -48,7 +48,7 @@ function CoinList() {
   useEffect(() => {
     fetchData();
     initDB();
-  }, []);
+  }, [navigation]);
 
   const initDB = () => {
     if (firebase.apps.length === 0) {
