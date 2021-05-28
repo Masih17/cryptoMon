@@ -65,39 +65,10 @@ function Favorites({ navigation }) {
     //console.log("formattedData in formatData() is: \n", formattedData.length);
   };
 
-  // const formatData = (data) => {
-  //   //console.log("data in the beginning is: ", data);
-  //   let arr = [];
-  //   var test = Object.values(data).map((v) => {
-  //     for (v in data) {
-  //       console.log("Object.values(data[v])", Object.values(data[v]));
-  //       //arr.push(Object.values(data[v]));
-  //     }
-  //   });
-  //   //setFormattedData(arr);
-  // };
-
-  // const formatData = (data) => {
-  //   // console.log("formatData is called");
-  //   let arr = [];
-  //   Object.keys(data).map((key) => {
-  //     for (key in data) {
-  //       for (const v in data[key]) {
-  //         for (const final in data[key][v]) {
-  //           arr.push([data[key][v]]);
-  //           //console.log("const final in data[key][v]", data[key][v]);
-  //         }
-  //       }
-  //     }
-  //   });
-  //   console.log("arr is", arr);
-  //   setFormattedData(arr);
-  // };
-
   return (
     <View style={styles.body}>
       <View>
-        {/* <FlatList
+        <FlatList
           data={formattedData}
           keyExtractor={(item, index) => {
             item.id;
@@ -113,11 +84,11 @@ function Favorites({ navigation }) {
                 style={styles.icon}
               />
               <View>
-                <Text>{item.id}</Text>
+                <Text style={styles.coinName}>{item.id}</Text>
               </View>
             </View>
           )}
-        /> */}
+        />
         <Text styles={{ color: "#000" }}> HELLO</Text>
       </View>
     </View>

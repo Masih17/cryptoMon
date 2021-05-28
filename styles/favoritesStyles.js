@@ -6,11 +6,11 @@ const ICON_SIZE = 40;
 export default StyleSheet.create({
   body: {
     flex: 1,
-    backgroundColor: "#34e7",
+    backgroundColor: "#000",
   },
 
   flatListBody: {
-    backgroundColor: "#fe1",
+    //backgroundColor: "#000",
     padding: SPACING,
     paddingTop: StatusBar.currentHeight || 24,
     // borderWidth: 2,
@@ -25,8 +25,8 @@ export default StyleSheet.create({
     marginBottom: SPACING / 4,
     backgroundColor: "rgba(59, 56, 74, 0.8)", // "rgba(43, 36, 79, 0.8)",
     borderRadius: 12,
-    // borderColor: "#18fa14",
-    // borderWidth: 2,
+    borderColor: "#18fa14",
+    borderWidth: 2,
   },
   flatListContainerItems: {
     flex: 1,
@@ -40,5 +40,50 @@ export default StyleSheet.create({
     height: ICON_SIZE,
     borderRadius: ICON_SIZE,
     marginRight: 10,
+  },
+  coinAcr: {
+    color: "#fff",
+    // borderColor: "#d8eb34",
+    // borderWidth: 2,
+  },
+  coinName: {
+    color: "#fff",
+    fontWeight: "bold",
+    // borderColor: "#a19fd4",
+    // borderWidth: 2,
+  },
+  icon: {
+    width: ICON_SIZE,
+    height: ICON_SIZE,
+    borderRadius: ICON_SIZE,
+    marginRight: 10,
+  },
+
+  price: {
+    color: "#fff",
+    fontWeight: "bold",
+    margin: 2,
+  },
+
+  priceData: {
+    alignItems: "flex-end", // Percentage to the most right
+    // borderColor: "#fff",
+    // borderWidth: 2,
+    //maxWidth: "100%",
+  },
+
+  up: {
+    color: "#45e600",
+    padding: 1,
+    //alignSelf: "flex-end",
+    justifyContent: "space-between",
+    fontWeight: "bold",
+  },
+  down: {
+    color: "#ff2626",
+    //alignSelf: "flex-end",
+    padding: 1,
+    fontWeight: "bold",
+    justifyContent: "space-between",
   },
 });

@@ -14,18 +14,20 @@ import {
 import { AntDesign } from "@expo/vector-icons";
 import { CheckBox } from "react-native-elements";
 import styles from "../styles/coinListStyles";
-import Favorites from "./Favorites";
 import filter from "lodash.filter";
 import axios from "axios";
 import firebase from "firebase";
 import firebaseConfig from "./firebaseConfig";
+import { useIsFocused } from "@react-navigation/native";
 
-function CoinList({ navigation }) {
+function CoinList() {
   const [coins, setCoins] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [query, setQuery] = useState();
   const [fullData, setFullData] = useState([]);
   const [favorites, setFavorites] = useState({ currFav: [], checked: [] });
+
+  const isFocused = useIsFocused();
 
   const API_URI =
     "https://api.coingecko.com/api/v3/coins/markets?vs_currency=eur&order=market_cap_desc&per_page=10&page=1&sparkline=false&price_change_percentage=1h%2C24h%2C7d";
@@ -48,7 +50,7 @@ function CoinList({ navigation }) {
   useEffect(() => {
     fetchData();
     initDB();
-  }, [navigation]);
+  }, []);
 
   const initDB = () => {
     if (firebase.apps.length === 0) {
@@ -163,6 +165,7 @@ function CoinList({ navigation }) {
                     <Text style={styles.coinAcr}>
                       {item.symbol.toUpperCase()}
                     </Text>
+
                     {/********* CheckBox **************/}
                     <View>
                       <Pressable>
@@ -184,9 +187,11 @@ function CoinList({ navigation }) {
                       </Pressable>
                     </View>
                   </View>
+
                   <View style={styles.data}>
                     <Text style={styles.price}></Text>
                   </View>
+
                   {/******  Price and Percentage *********/}
 
                   <View style={styles.priceData}>
