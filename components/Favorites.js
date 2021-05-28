@@ -3,7 +3,6 @@ import { Text, View, FlatList, Image } from "react-native";
 import styles from "../styles/favoritesStyles";
 import firebase from "firebase/app";
 import firebaseConfig from "./firebaseConfig";
-import { Button } from "react-native";
 import { useFocusEffect } from "@react-navigation/native";
 import { useIsFocused } from "@react-navigation/native";
 

@@ -1,7 +1,6 @@
 import { StatusBar } from "react-native";
 import React from "react";
 import { StyleSheet, SafeAreaView } from "react-native";
-import { NavigationContainer } from "@react-navigation/native";
 import Tabs from "./components/Tabs";
 
 const THEME_COLOR = "#000";
