@@ -20,3 +20,12 @@ The app is at its very beginning stage and needs a lot of improvements on the pa
 - API from [[here](https://www.coingecko.com/en/api#explore-api)]
 - ReactNavigation
 - Firebase
+
+## How to deploy
+
+Clone this repo and then install it with npm or yarn. That's all for the installation. 
+To be able to save the favorites, you need a Firebase credetials. 
+
+Create a "firebaseConfig" file in the component directory and add your firebase credentials to it.
+
+Hopefully then you can run the app. I will work on this and make it solid. Currently there are issues with screen not updating immidietly. 
